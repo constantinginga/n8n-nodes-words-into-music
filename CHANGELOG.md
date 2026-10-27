@@ -2,7 +2,7 @@
 
 ## 0.1.1
 
-- Fix Job: Get Status and Song: Get returning "Endpoint not found" in the n8n editor when the job or song ID is mapped with an expression.
+- Build the Job: Get Status and Song: Get request paths from the ID field itself. No change in behaviour.
 
 ## 0.1.0
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- Fix Job: Get Status and Song: Get returning "Endpoint not found" in the n8n editor when the job or song ID is mapped with an expression.
+
 ## 0.1.0
 
 - Initial release.

@@ -14,6 +14,11 @@ export const songGetDescription: INodeProperties[] = [
 		displayOptions: { show: showOnlyForSongGet },
 		default: '',
 		description: 'The ID of a song in your library',
+		routing: {
+			request: {
+				url: '=/songs/{{encodeURIComponent($value)}}',
+			},
+		},
 	},
 	{
 		displayName: 'Include Lyrics',

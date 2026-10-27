@@ -23,7 +23,6 @@ export const jobDescription: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '=/jobs/{{encodeURIComponent($parameter.jobId)}}',
 					},
 				},
 			},
@@ -44,5 +43,10 @@ export const jobDescription: INodeProperties[] = [
 		default: '',
 		placeholder: '={{ $json.jobId }}',
 		description: 'The jobId returned by the Start operation',
+		routing: {
+			request: {
+				url: '=/jobs/{{encodeURIComponent($value)}}',
+			},
+		},
 	},
 ];

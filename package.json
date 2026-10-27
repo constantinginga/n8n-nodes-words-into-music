@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-words-into-music",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n community node for the Words into Music API: prepare and start AI songs from ideas or lyrics, check generation status, browse your song library and check song credits.",
 	"license": "MIT",
 	"homepage": "https://wordsintomusic.com/developers/",

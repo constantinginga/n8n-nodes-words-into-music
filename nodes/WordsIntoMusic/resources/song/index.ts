@@ -26,7 +26,6 @@ export const songDescription: INodeProperties[] = [
 				routing: {
 					request: {
 						method: 'GET',
-						url: '=/songs/{{encodeURIComponent($parameter.songId)}}',
 					},
 				},
 			},

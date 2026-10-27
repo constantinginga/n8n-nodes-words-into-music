@@ -1,0 +1,119 @@
+{
+	"name": "Words into Music: make a song",
+	"nodes": [
+		{
+			"parameters": {},
+			"id": "8c1d6c55-0f4e-4d7e-9c1a-1f0e4a8f2a01",
+			"name": "When clicking 'Execute workflow'",
+			"type": "n8n-nodes-base.manualTrigger",
+			"typeVersion": 1,
+			"position": [0, 0]
+		},
+		{
+			"parameters": {
+				"resource": "song",
+				"operation": "prepare",
+				"idea": "A hopeful song about starting over in a new city",
+				"direction": "Warm acoustic pop, steady drums, gentle vocals",
+				"additionalFields": {
+					"duration": 120,
+					"language": "en"
+				}
+			},
+			"id": "8c1d6c55-0f4e-4d7e-9c1a-1f0e4a8f2a02",
+			"name": "Prepare song",
+			"type": "n8n-nodes-words-into-music.wordsIntoMusic",
+			"typeVersion": 1,
+			"position": [220, 0]
+		},
+		{
+			"parameters": {
+				"resource": "song",
+				"operation": "start",
+				"preparedRequestId": "={{ $json.preparedRequestId }}"
+			},
+			"id": "8c1d6c55-0f4e-4d7e-9c1a-1f0e4a8f2a03",
+			"name": "Start song (uses 1 credit)",
+			"type": "n8n-nodes-words-into-music.wordsIntoMusic",
+			"typeVersion": 1,
+			"position": [440, 0]
+		},
+		{
+			"parameters": {
+				"amount": 30,
+				"unit": "seconds"
+			},
+			"id": "8c1d6c55-0f4e-4d7e-9c1a-1f0e4a8f2a04",
+			"name": "Wait 30 seconds",
+			"type": "n8n-nodes-base.wait",
+			"typeVersion": 1.1,
+			"position": [660, 0],
+			"webhookId": "8c1d6c55-0f4e-4d7e-9c1a-1f0e4a8f2a09"
+		},
+		{
+			"parameters": {
+				"resource": "job",
+				"operation": "get",
+				"jobId": "={{ $('Start song (uses 1 credit)').item.json.jobId }}"
+			},
+			"id": "8c1d6c55-0f4e-4d7e-9c1a-1f0e4a8f2a05",
+			"name": "Get status",
+			"type": "n8n-nodes-words-into-music.wordsIntoMusic",
+			"typeVersion": 1,
+			"position": [880, 0]
+		},
+		{
+			"parameters": {
+				"conditions": {
+					"options": {
+						"caseSensitive": true,
+						"leftValue": "",
+						"typeValidation": "strict"
+					},
+					"conditions": [
+						{
+							"id": "8c1d6c55-0f4e-4d7e-9c1a-1f0e4a8f2a10",
+							"leftValue": "={{ ['generating', 'saving'].includes($json.status) }}",
+							"rightValue": "",
+							"operator": {
+								"type": "boolean",
+								"operation": "true",
+								"singleValue": true
+							}
+						}
+					],
+					"combinator": "and"
+				},
+				"options": {}
+			},
+			"id": "8c1d6c55-0f4e-4d7e-9c1a-1f0e4a8f2a06",
+			"name": "Still generating?",
+			"type": "n8n-nodes-base.if",
+			"typeVersion": 2.2,
+			"position": [1100, 0]
+		}
+	],
+	"connections": {
+		"When clicking 'Execute workflow'": {
+			"main": [[{ "node": "Prepare song", "type": "main", "index": 0 }]]
+		},
+		"Prepare song": {
+			"main": [[{ "node": "Start song (uses 1 credit)", "type": "main", "index": 0 }]]
+		},
+		"Start song (uses 1 credit)": {
+			"main": [[{ "node": "Wait 30 seconds", "type": "main", "index": 0 }]]
+		},
+		"Wait 30 seconds": {
+			"main": [[{ "node": "Get status", "type": "main", "index": 0 }]]
+		},
+		"Get status": {
+			"main": [[{ "node": "Still generating?", "type": "main", "index": 0 }]]
+		},
+		"Still generating?": {
+			"main": [[{ "node": "Wait 30 seconds", "type": "main", "index": 0 }], []]
+		}
+	},
+	"settings": {
+		"executionOrder": "v1"
+	}
+}
